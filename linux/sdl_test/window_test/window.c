@@ -37,11 +37,18 @@ int main() {
 
 	// Create the program loop here.
 	while(1) {
+		const Uint8 *state;
 		SDL_Event e;
 		if(SDL_PollEvent(&e)) {
 			if(e.type == SDL_QUIT) {
 				break;
 			}
+		}
+
+		state = SDL_GetKeyboardState(NULL);
+
+		if(state[SDL_SCANCODE_W]) {
+			printf("Moving up with W.\n");
 		}
 
 		SDL_RenderClear(renderer);
