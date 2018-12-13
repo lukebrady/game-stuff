@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
 	"runtime"
 
 	"github.com/veandco/go-sdl2/mix"
@@ -63,30 +61,9 @@ func main() {
 		panic(err)
 	}
 	defer bmp.Free()
-	bmp.SetAlphaMod(0)
-	texture, err := renderer.CreateTextureFromSurface(bmp)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
+	if err := FadeInSurface(bmp, renderer, 0, 0.07, 5.0); err != nil {
 		panic(err)
 	}
-	defer texture.Destroy()
-
-	src := sdl.Rect{0, 0, 500, 319}
-	dst := sdl.Rect{0, 0, 500, 319}
-	renderer.Clear()
-	renderer.Copy(texture, &src, &dst)
-	renderer.Present()
-	bmp.SetAlphaMod(150)
-	texture, err = renderer.CreateTextureFromSurface(bmp)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
-		panic(err)
-	}
-	renderer.Clear()
-	renderer.Copy(texture, &src, &dst)
-	renderer.Present()
-
-	sdl.Delay(2000)
 	//go playAudio()
 	running := true
 	for running {
