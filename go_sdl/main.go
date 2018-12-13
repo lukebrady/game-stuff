@@ -48,7 +48,7 @@ func main() {
 	defer sdl.Quit()
 	// Create the SDL window.
 	window, err := sdl.CreateWindow("Window Test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		800, 500, sdl.WINDOW_SHOWN)
+		500, 319, sdl.WINDOW_SHOWN)
 	if err != nil {
 		panic(err)
 	}
@@ -63,7 +63,7 @@ func main() {
 		panic(err)
 	}
 	defer bmp.Free()
-
+	bmp.SetAlphaMod(0)
 	texture, err := renderer.CreateTextureFromSurface(bmp)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
@@ -71,15 +71,23 @@ func main() {
 	}
 	defer texture.Destroy()
 
-	src := sdl.Rect{0, 0, 512, 512}
-	dst := sdl.Rect{100, 50, 512, 512}
-
+	src := sdl.Rect{0, 0, 500, 319}
+	dst := sdl.Rect{0, 0, 500, 319}
+	renderer.Clear()
+	renderer.Copy(texture, &src, &dst)
+	renderer.Present()
+	bmp.SetAlphaMod(150)
+	texture, err = renderer.CreateTextureFromSurface(bmp)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
+		panic(err)
+	}
 	renderer.Clear()
 	renderer.Copy(texture, &src, &dst)
 	renderer.Present()
 
 	sdl.Delay(2000)
-	go playAudio()
+	//go playAudio()
 	running := true
 	for running {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
