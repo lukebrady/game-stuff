@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"runtime"
 
 	"github.com/veandco/go-sdl2/mix"
@@ -30,7 +32,7 @@ func playAudio() {
 	defer chunk.Free()
 
 	// Play 4 times
-	chunk.Play(1, 3)
+	chunk.Play(1, 5)
 
 	// Wait until it finishes playing
 	for mix.Playing(-1) == 1 {
@@ -51,6 +53,32 @@ func main() {
 		panic(err)
 	}
 	defer window.Destroy()
+	renderer, err := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
+	if err != nil {
+		panic(err)
+	}
+
+	bmp, err := sdl.LoadBMP("./linux/sdl_test/window_test/img/background.bmp")
+	if err != nil {
+		panic(err)
+	}
+	defer bmp.Free()
+
+	texture, err := renderer.CreateTextureFromSurface(bmp)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
+		panic(err)
+	}
+	defer texture.Destroy()
+
+	src := sdl.Rect{0, 0, 512, 512}
+	dst := sdl.Rect{100, 50, 512, 512}
+
+	renderer.Clear()
+	renderer.Copy(texture, &src, &dst)
+	renderer.Present()
+
+	sdl.Delay(2000)
 	go playAudio()
 	running := true
 	for running {
