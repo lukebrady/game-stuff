@@ -15,7 +15,7 @@ func main() {
 	defer sdl.Quit()
 	// Create the SDL window.
 	window, err := sdl.CreateWindow("Window Test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		500, 319, sdl.WINDOW_SHOWN)
+		500, 319, sdl.WINDOW_RESIZABLE)
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +31,7 @@ func main() {
 	}
 	defer bmp.Free()
 	go FadeInSurface(bmp, renderer, 0, time.Millisecond*100)
-	go playAudio()
+	go playMenuAudio()
 	running := true
 	for running {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
