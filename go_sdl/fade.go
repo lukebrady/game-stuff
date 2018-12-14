@@ -7,7 +7,7 @@ import (
 )
 
 // FadeInSurface fades in the supplied surface.
-func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha uint8, timeSpan int) error {
+func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha uint8, fadeIn time.Duration) error {
 	// Set the alpha starting point.
 	for x := 0; x < 50; x++ {
 		bmp.SetAlphaMod(alpha)
@@ -23,7 +23,7 @@ func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha uint8, timeSp
 		renderer.Copy(texture, &src, &dst)
 		renderer.Present()
 		alpha += 5
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(fadeIn)
 		println(alpha)
 		if alpha > 255 {
 			break
