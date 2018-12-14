@@ -1,14 +1,16 @@
 package main
 
 import (
+	"time"
+
 	"github.com/veandco/go-sdl2/sdl"
 )
 
 // FadeInSurface fades in the supplied surface.
-func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha float32, fadeSpeed float32, timeSpan float32) error {
+func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha uint8, timeSpan int) error {
 	// Set the alpha starting point.
-	for alpha < 255 {
-		bmp.SetAlphaMod(uint8(alpha))
+	for x := 0; x < 50; x++ {
+		bmp.SetAlphaMod(alpha)
 		texture, err := renderer.CreateTextureFromSurface(bmp)
 		if err != nil {
 			return err
@@ -20,8 +22,12 @@ func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha float32, fade
 		renderer.Clear()
 		renderer.Copy(texture, &src, &dst)
 		renderer.Present()
-		alpha += fadeSpeed * timeSpan
+		alpha += 5
+		time.Sleep(time.Millisecond * 100)
 		println(alpha)
+		if alpha > 255 {
+			break
+		}
 	}
 	return nil
 }

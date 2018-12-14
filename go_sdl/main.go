@@ -61,9 +61,7 @@ func main() {
 		panic(err)
 	}
 	defer bmp.Free()
-	if err := FadeInSurface(bmp, renderer, 0, 0.07, 5.0); err != nil {
-		panic(err)
-	}
+	go FadeInSurface(bmp, renderer, 0, 1)
 	//go playAudio()
 	running := true
 	for running {
