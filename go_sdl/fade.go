@@ -24,7 +24,6 @@ func FadeInSurface(bmp *sdl.Surface, renderer *sdl.Renderer, alpha uint8, fadeIn
 		renderer.Present()
 		alpha += 5
 		time.Sleep(fadeIn)
-		println(alpha)
 		if alpha > 255 {
 			break
 		}

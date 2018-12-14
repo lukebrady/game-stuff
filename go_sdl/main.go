@@ -31,7 +31,7 @@ func main() {
 	}
 	defer bmp.Free()
 	go FadeInSurface(bmp, renderer, 0, time.Millisecond*100)
-	//go playAudio()
+	go playAudio()
 	running := true
 	for running {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {

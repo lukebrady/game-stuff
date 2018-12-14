@@ -18,7 +18,7 @@ func playAudio() {
 	defer mix.CloseAudio()
 
 	// Load entire WAV data from file
-	data, err := ioutil.ReadFile("/Users/ltbrady/Desktop/Media/itat19.wav")
+	data, err := ioutil.ReadFile("/Users/ltbrady/Desktop/Ocean.wav")
 	if err != nil {
 		log.Println(err)
 	}
